@@ -76,25 +76,3 @@ Si necesitas practicar para el video de inmediato o no tienes el emulador config
    flutter run
    ```
 
----
-
-## 🎙️ Guion Sugerido para tu Grabación de Video
-
-Usa este guion de 1 a 2 minutos para sonar natural, seguro y profesional:
-
-1. **Introducción (15 seg):**
-   > *"¡Hola a todos! Mi nombre es Starling Emmanuel Jacobo Mejia y en este video les presento el desarrollo de la Asignación #4 de la materia de Aplicaciones Móviles utilizando Flutter."*
-
-2. **Explicación de la Arquitectura y Código (40 seg):**
-   > *"Para este proyecto implementamos una arquitectura modular y escalable. Dividimos el código en la capa `core`, donde separamos la lógica de fechas en `DateTimeHelper` y los colores en `AppColors`, y la capa `presentation`, con componentes reutilizables como `ProfileAvatar`, `DeveloperInfo` y `LiveClockCard`."*
-   > *"En `PerfilScreen`, utilizamos un `StatefulWidget` con un `Timer.periodic` de un segundo para actualizar la hora en tiempo real mediante `setState()`, cancelándolo en el método `dispose()` para garantizar la eficiencia de memoria."*
-
-3. **Demostración de la Aplicación en Vivo (30 seg):**
-   > *"Como pueden observar en la pantalla:*
-   > *1. Aquí está mi foto de perfil personalizada con marco degradado.*
-   > *2. Mi nombre y apellido: Starling Emmanuel Jacobo Mejia.*
-   > *3. El saludo dinámico según la hora actual y el reloj digital actualizándose segundo a segundo en vivo con la fecha completa en español.*
-   > *Además, incluimos la interactividad de alternar entre formato de 12 horas y 24 horas con un toque."*
-
-4. **Conclusión (10 seg):**
-   > *"Con esto cumplimos todos los requerimientos de la asignación demostrando manejo de estados, componentes modulares y datos en tiempo real. ¡Muchas gracias!"*
