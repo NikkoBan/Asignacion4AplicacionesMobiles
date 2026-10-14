@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Asignación 4 - Flutter Mobile App Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at 50% 20%, #1e1b4b 0%, #090d16 100%);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: #f8fafc;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 30px 15px;
+    }
+
+    .header-bar {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .badge-tag {
+      display: inline-block;
+      background: rgba(99, 102, 241, 0.18);
+      color: #818cf8;
+      border: 1px solid rgba(99, 102, 241, 0.35);
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: 26px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .instructions {
+      color: #94a3b8;
+      font-size: 14px;
+      margin-top: 6px;
+    }
+
+    /* Marco del Teléfono Móvil */
+    .phone-container {
+      width: 380px;
+      height: 740px;
+      background: #0f172a;
+      border-radius: 46px;
+      border: 10px solid #1e293b;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7),
+                  0 0 40px rgba(99, 102, 241, 0.15);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Isla Dinámica / Cámara Frontal */
+    .notch {
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 22px;
+      background: #020617;
+      border-radius: 20px;
+      z-index: 10;
+    }
+
+    /* Barra de estado */
+    .status-bar {
+      height: 44px;
+      padding: 12px 24px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      font-weight: 600;
+      color: #cbd5e1;
+      z-index: 5;
+    }
+
+    /* AppBar de Flutter */
+    .flutter-appbar {
+      padding: 16px 20px 10px;
+      text-align: center;
+      border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+    }
+
+    .flutter-appbar h2 {
+      font-size: 17px;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: 0.5px;
+    }
+
+    /* Contenido de la Pantalla */
+    .screen-content {
+      flex: 1;
+      padding: 18px 22px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-y: auto;
+    }
+
+    /* Saludo */
+    .saludo-pill {
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid rgba(99, 102, 241, 0.4);
+      color: #93c5fd;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 18px;
+    }
+
+    /* Foto de Perfil */
+    .avatar-wrapper {
+      position: relative;
+      width: 140px;
+      height: 140px;
+      margin-bottom: 18px;
+    }
+
+    .avatar-border {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      padding: 4px;
+      background: linear-gradient(135deg, #38bdf8 0%, #6366f1 50%, #a855f7 100%);
+      box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.5);
+    }
+
+    .avatar-border img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+      background-color: #1e293b;
+    }
+
+    .online-indicator {
+      position: absolute;
+      bottom: 6px;
+      right: 6px;
+      width: 22px;
+      height: 22px;
+      background: #0f172a;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .online-dot {
+      width: 14px;
+      height: 14px;
+      background: #22c55e;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #22c55e;
+    }
+
+    /* Nombre */
+    .user-name {
+      font-size: 22px;
+      font-weight: 800;
+      color: #ffffff;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    .user-lastname {
+      font-size: 18px;
+      font-weight: 600;
+      color: #94a3b8;
+      text-align: center;
+      margin-top: 4px;
+    }
+
+    /* Rol Badge */
+    .role-badge {
+      margin-top: 10px;
+      background: #1e293b;
+      border: 1px solid #334155;
+      padding: 6px 14px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 500;
+      color: #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .role-badge svg {
+      color: #38bdf8;
+    }
+
+    /* Tarjeta Fecha y Hora */
+    .time-card {
+      width: 100%;
+      margin-top: 22px;
+      background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%);
+      border-radius: 20px;
+      border: 1.5px solid rgba(71, 85, 105, 0.4);
+      padding: 18px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    }
+
+    .time-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .time-title {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .live-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(34, 197, 94, 0.15);
+      border: 1px solid rgba(34, 197, 94, 0.4);
+      color: #4ade80;
+      padding: 3px 8px;
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .pulsing-dot {
+      width: 6px;
+      height: 6px;
+      background: #22c55e;
+      border-radius: 50%;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.4; transform: scale(0.8); }
+      50% { opacity: 1; transform: scale(1.2); }
+      100% { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    .divider {
+      height: 1px;
+      background: #334155;
+      margin-bottom: 14px;
+    }
+
+    .digital-clock {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 28px;
+      font-weight: 700;
+      color: #f8fafc;
+      text-align: center;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .date-display {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 13px;
+      color: #cbd5e1;
+      text-align: center;
+      margin-bottom: 14px;
+    }
+
+    .format-btn {
+      width: 100%;
+      background: transparent;
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      color: #38bdf8;
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .format-btn:hover {
+      background: rgba(56, 189, 248, 0.1);
+      border-color: #38bdf8;
+    }
+
+    .app-footer {
+      margin-top: auto;
+      padding-top: 15px;
+      color: #64748b;
+      font-size: 11px;
+      text-align: center;
+    }
+
+    /* Barra inferior del teléfono */
+    .home-indicator {
+      width: 120px;
+      height: 4px;
+      background: #475569;
+      border-radius: 2px;
+      margin: 8px auto 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header-bar">
+    <div class="badge-tag">ASIGNACIÓN #4 • FLUTTER PREVIEW</div>
+    <h1>Vista Previa Interactiva de la App</h1>
+    <p class="instructions">Simulador visual exacto del código escrito en <code>lib/main.dart</code></p>
+  </div>
+
+  <!-- Celular simulado -->
+  <div class="phone-container">
+    <div class="notch"></div>
+
+    <div class="status-bar">
+      <span id="status-time">12:00</span>
+      <span>5G &nbsp; 100% 🔋</span>
+    </div>
+
+    <div class="flutter-appbar">
+      <h2>Asignación #4: App Móvil</h2>
+    </div>
+
+    <div class="screen-content">
+      <!-- Saludo Dinámico -->
+      <div class="saludo-pill" id="saludo-text">¡Hola!</div>
+
+      <!-- Foto de Perfil -->
+      <div class="avatar-wrapper">
+        <div class="avatar-border">
+          <img src="assets/images/perfil.png" alt="Starling Emmanuel Jacobo Mejia" id="profile-img">
+        </div>
+        <div class="online-indicator">
+          <div class="online-dot"></div>
+        </div>
+      </div>
+
+      <!-- Nombres -->
+      <div class="user-name">Starling Emmanuel</div>
+      <div class="user-lastname">Jacobo Mejia</div>
+
+      <!-- Rol -->
+      <div class="role-badge">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="16 18 22 12 16 6"></polyline>
+          <polyline points="8 6 2 12 8 18"></polyline>
+        </svg>
+        Desarrollador Móvil Flutter
+      </div>
+
+      <!-- Tarjeta Fecha y Hora -->
+      <div class="time-card">
+        <div class="time-header">
+          <div class="time-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            Hora y Fecha
+          </div>
+          <div class="live-badge">
+            <span class="pulsing-dot"></span>
+            EN VIVO
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="digital-clock" id="digital-clock">00:00:00 AM</div>
+
+        <div class="date-display">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+          <span id="date-text">Cargando fecha...</span>
+        </div>
+
+        <button class="format-btn" id="toggle-format-btn" onclick="toggleFormat()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="17 1 21 5 17 9"></polyline>
+            <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+            <polyline points="7 23 3 19 7 15"></polyline>
+            <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+          </svg>
+          <span id="format-btn-text">Cambiar a formato 24 Horas</span>
+        </button>
+      </div>
+
+      <div class="app-footer">
+        Desarrollo de Aplicaciones Móviles • Flutter SDK
+      </div>
+    </div>
+
+    <div class="home-indicator"></div>
+  </div>
+
+  <script>
+    let use24Hour = false;
+
+    const dias = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+    const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
+    function updateTime() {
+      const now = new Date();
+
+      // Saludo
+      const hour = now.getHours();
+      let saludo = '¡Buenas noches! 🌙';
+      if (hour >= 6 && hour < 12) {
+        saludo = '¡Buenos días! ☀️';
+      } else if (hour >= 12 && hour < 19) {
+        saludo = '¡Buenas tardes! 🌤️';
+      }
+      document.getElementById('saludo-text').textContent = saludo;
+
+      // Status Bar
+      const sh = String(now.getHours()).padStart(2, '0');
+      const sm = String(now.getMinutes()).padStart(2, '0');
+      document.getElementById('status-time').textContent = `${sh}:${sm}`;
+
+      // Reloj Digital
+      let clockStr = '';
+      const ss = String(now.getSeconds()).padStart(2, '0');
+
+      if (use24Hour) {
+        clockStr = `${sh}:${sm}:${ss}`;
+      } else {
+        const h12 = hour % 12 === 0 ? 12 : hour % 12;
+        const ampm = hour >= 12 ? 'PM' : 'AM';
+        clockStr = `${String(h12).padStart(2, '0')}:${sm}:${ss} ${ampm}`;
+      }
+      document.getElementById('digital-clock').textContent = clockStr;
+
+      // Fecha
+      const diaSemana = dias[now.getDay()];
+      const diaMes = now.getDate();
+      const mes = meses[now.getMonth()];
+      const anio = now.getFullYear();
+      document.getElementById('date-text').textContent = `${diaSemana}, ${diaMes} de ${mes} de ${anio}`;
+    }
+
+    function toggleFormat() {
+      use24Hour = !use24Hour;
+      document.getElementById('format-btn-text').textContent = use24Hour 
+        ? 'Cambiar a formato 12 Horas' 
+        : 'Cambiar a formato 24 Horas';
+      updateTime();
+    }
+
+    setInterval(updateTime, 1000);
+    updateTime();
+  </script>
+</body>
+</html>

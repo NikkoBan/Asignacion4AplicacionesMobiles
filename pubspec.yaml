@@ -1,0 +1,24 @@
+name: asignacion4_flutter_app
+description: "Aplicación móvil en Flutter con foto de perfil, datos del desarrollador y fecha/hora en tiempo real."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/perfil.png
